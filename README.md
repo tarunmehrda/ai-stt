@@ -275,6 +275,8 @@ For questions or support:
 ---
 
 **Built with ❤️ for the future of local commerce**
-#   E k t h a a - a i - s t t  
- #   E k t h a a - a i - s t t  
+#   E k t h a a - a i - s t t 
+ 
+ #   E k t h a a - a i - s t t 
+ 
  
