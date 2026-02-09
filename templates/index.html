@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Business Onboarding | Ekthaa</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1><i class="fas fa-microphone-alt"></i> Voice Business Onboarding</h1>
+            <button id="viewProfilesBtn" class="view-profiles-btn" title="View All Profiles">
+                <i class="fas fa-users"></i>
+                <span class="profile-count">0</span>
+            </button>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-building"></i> Phase 1 — Business Details</h2>
+            <button id="recordBusiness"><i class="fas fa-microphone"></i></button>
+            <p id="status1" class="status idle">Idle - Ready to record business information</p>
+            
+            <!-- Audio Visualization -->
+            <div id="audioVisualization1" class="audio-visualization">
+                <div class="microphone-indicator">
+                    <span class="recording-pulse"></span>
+                    Recording...
+                </div>
+                <div class="audio-wave">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+            </div>
+            
+            <div class="transcription-box">
+                <h4><i class="fas fa-sticky-note"></i> Phase 1 Transcription:</h4>
+                <pre id="businessTranscription">No transcription yet...</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-shopping-cart"></i> Phase 2 — Add Products</h2>
+            <button id="recordProducts"><i class="fas fa-microphone"></i></button>
+            <p id="status2" class="status idle">Idle - Ready to record product information</p>
+            
+            <!-- Audio Visualization -->
+            <div id="audioVisualization2" class="audio-visualization">
+                <div class="microphone-indicator">
+                    <span class="recording-pulse"></span>
+                    Recording...
+                </div>
+                <div class="audio-wave">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+            </div>
+            
+            <div class="transcription-box">
+                <h4><i class="fas fa-sticky-note"></i> Phase 2 Transcription:</h4>
+                <pre id="productsTranscription">No transcription yet...</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-file-alt"></i> Final Extracted Data</h2>
+            <div id="jsonContainer">
+                <div id="editForm" style="display: none;">
+                    <div id="businessEditSection" style="display: none;">
+                        <h3><i class="fas fa-edit"></i> Edit Business Details</h3>
+                        <form id="businessForm">
+                            <div class="form-group">
+                                <label for="editPersonName"><i class="fas fa-user"></i> Person Name *</label>
+                                <input type="text" id="editPersonName" class="form-input" placeholder="Enter person name">
+                            </div>
+                            <div class="form-group">
+                                <label for="editName"><i class="fas fa-store"></i> Business Name *</label>
+                                <input type="text" id="editName" class="form-input" placeholder="Enter business name">
+                            </div>
+                            <div class="form-group">
+                                <label for="editAddress"><i class="fas fa-map-marker-alt"></i> Address *</label>
+                                <input type="text" id="editAddress" class="form-input" placeholder="Enter full address">
+                            </div>
+                            <div class="form-group">
+                                <label for="editCity"><i class="fas fa-city"></i> City *</label>
+                                <input type="text" id="editCity" class="form-input" placeholder="Enter city">
+                            </div>
+                            <div class="form-group">
+                                <label for="editCategory"><i class="fas fa-tags"></i> Category *</label>
+                                <input type="text" id="editCategory" class="form-input" placeholder="Enter business category">
+                            </div>
+                            <div class="form-group">
+                                <label for="editSubcategory"><i class="fas fa-tag"></i> Subcategory</label>
+                                <input type="text" id="editSubcategory" class="form-input" placeholder="Enter business subcategory">
+                            </div>
+                            <div class="form-group">
+                                <label for="editPhone"><i class="fas fa-phone"></i> Phone *</label>
+                                <input type="text" id="editPhone" class="form-input" placeholder="Enter phone number">
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div id="productsEditSection" style="display: none;">
+                        <h3><i class="fas fa-box-open"></i> Manage Products</h3>
+                        <div id="productsContainer">
+                            <p>No products yet. Record product information or add manually!</p>
+                        </div>
+                        <button id="addProduct" class="add-btn"><i class="fas fa-plus"></i> Add Product Manually</button>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="saveChanges" class="save-btn"><i class="fas fa-save"></i> Save Changes</button>
+                        <button id="cancelEdit" class="cancel-btn"><i class="fas fa-times"></i> Cancel</button>
+                    </div>
+                </div>
+                
+                <div id="viewMode">
+                    <div id="dataCard" style="display: none;">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clipboard-list"></i> Extracted Details</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="field-row">
+                                <div class="field-label">Person Name</div>
+                                <div class="field-value" id="cardPersonName">-</div>
+                                <div class="confidence-badge" id="cardPersonNameConfidence">-</div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-label">Business Name</div>
+                                <div class="field-value" id="cardName">-</div>
+                                <div class="confidence-badge" id="cardNameConfidence">-</div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-label">Address</div>
+                                <div class="field-value" id="cardAddress">-</div>
+                                <div class="confidence-badge" id="cardAddressConfidence">-</div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-label">City</div>
+                                <div class="field-value" id="cardCity">-</div>
+                                <div class="confidence-badge" id="cardCityConfidence">-</div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-label">Category</div>
+                                <div class="field-value" id="cardCategory">-</div>
+                                <div class="confidence-badge" id="cardCategoryConfidence">-</div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-label">Subcategory</div>
+                                <div class="field-value" id="cardSubcategory">-</div>
+                                <div class="confidence-badge" id="cardSubcategoryConfidence">-</div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-label">Phone</div>
+                                <div class="field-value" id="cardPhone">-</div>
+                                <div class="confidence-badge" id="cardPhoneConfidence">-</div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-label">Products</div>
+                                <div class="field-value" id="cardProducts">-</div>
+                                <div class="confidence-badge" id="cardProductsConfidence">-</div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button id="redoBtn" class="redo-btn"><i class="fas fa-redo"></i> Redo</button>
+                            <button id="confirmBtn" class="confirm-btn"><i class="fas fa-check"></i> Confirm</button>
+                        </div>
+                    </div>
+                    <pre id="result">No data yet... Complete Phase 1 and/or Phase 2 to see extracted information here.</pre>
+                    <div class="view-controls">
+                        <button id="editBusinessBtn" class="edit-btn" style="display: none;"><i class="fas fa-edit"></i> Edit Business</button>
+                        <button id="editProductsBtn" class="edit-btn" style="display: none;"><i class="fas fa-edit"></i> Edit Products</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Confirmation Modal -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-check-circle"></i> Profile Created Successfully!</h2>
+                <button class="close-btn" onclick="closeSuccessModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <p><strong> Business profile has been created successfully!</strong></p>
+                </div>
+                
+                <div class="profile-summary">
+                    <h3><i class="fas fa-user"></i> Profile Details</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <label>Person Name:</label>
+                            <span id="summaryPersonName">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>Business Name:</label>
+                            <span id="summaryName">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>Address:</label>
+                            <span id="summaryAddress">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>City:</label>
+                            <span id="summaryCity">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>Category:</label>
+                            <span id="summaryCategory">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>Phone:</label>
+                            <span id="summaryPhone">-</span>
+                        </div>
+                        <div class="summary-item full-width">
+                            <label>Products:</label>
+                            <span id="summaryProducts">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button id="createMoreBtn" class="create-more-btn" onclick="createMoreProfiles()">
+                        <i class="fas fa-plus-circle"></i> Create More Profiles
+                    </button>
+                    <button id="finishBtn" class="finish-btn" onclick="finishProcess()">
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-file-alt"></i> Final Extracted Data</h2>
+                <div id="jsonContainer">
+                    <div id="editForm" style="display: none;">
+                        <div id="businessEditSection" style="display: none;">
+                            <h3><i class="fas fa-edit"></i> Edit Business Details</h3>
+                            <form id="businessForm">
+                                <div class="form-group">
+                                    <label for="editPersonName"><i class="fas fa-user"></i> Person Name *</label>
+                                    <input type="text" id="editPersonName" class="form-input" placeholder="Enter person name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editName"><i class="fas fa-store"></i> Business Name *</label>
+                                    <input type="text" id="editName" class="form-input" placeholder="Enter business name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editAddress"><i class="fas fa-map-marker-alt"></i> Address *</label>
+                                    <input type="text" id="editAddress" class="form-input" placeholder="Enter full address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editCity"><i class="fas fa-city"></i> City *</label>
+                                    <input type="text" id="editCity" class="form-input" placeholder="Enter city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editCategory"><i class="fas fa-tags"></i> Category *</label>
+                                    <input type="text" id="editCategory" class="form-input" placeholder="Enter business category">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editSubcategory"><i class="fas fa-tag"></i> Subcategory</label>
+                                    <input type="text" id="editSubcategory" class="form-input" placeholder="Enter business subcategory">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editPhone"><i class="fas fa-phone"></i> Phone *</label>
+                                    <input type="text" id="editPhone" class="form-input" placeholder="Enter phone number">
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="productsEditSection" style="display: none;">
+                            <h3><i class="fas fa-box-open"></i> Manage Products</h3>
+                            <div id="productsContainer">
+                                <p>No products yet. Record product information or add manually!</p>
+                            </div>
+                            <button id="addProduct" class="add-btn"><i class="fas fa-plus"></i> Add Product Manually</button>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button id="saveChanges" class="save-btn"><i class="fas fa-save"></i> Save Changes</button>
+                            <button id="cancelEdit" class="cancel-btn"><i class="fas fa-times"></i> Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <div id="viewMode">
+                        <div id="dataCard" style="display: none;">
+                            <div class="card-header">
+                                <h3><i class="fas fa-clipboard-list"></i> Extracted Details</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="field-row">
+                                    <div class="field-label">Person Name</div>
+                                    <div class="field-value" id="cardPersonName">-</div>
+                                    <div class="confidence-badge" id="cardPersonNameConfidence">-</div>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-label">Business Name</div>
+                                    <div class="field-value" id="cardName">-</div>
+                                    <div class="confidence-badge" id="cardNameConfidence">-</div>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-label">Address</div>
+                                    <div class="field-value" id="cardAddress">-</div>
+                                    <div class="confidence-badge" id="cardAddressConfidence">-</div>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-label">City</div>
+                                    <div class="field-value" id="cardCity">-</div>
+                                    <div class="confidence-badge" id="cardCityConfidence">-</div>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-label">Category</div>
+                                    <div class="field-value" id="cardCategory">-</div>
+                                    <div class="confidence-badge" id="cardCategoryConfidence">-</div>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-label">Subcategory</div>
+                                    <div class="field-value" id="cardSubcategory">-</div>
+                                    <div class="confidence-badge" id="cardSubcategoryConfidence">-</div>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-label">Phone</div>
+                                    <div class="field-value" id="cardPhone">-</div>
+                                    <div class="confidence-badge" id="cardPhoneConfidence">-</div>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field-label">Products</div>
+                                    <div class="field-value" id="cardProducts">-</div>
+                                    <div class="confidence-badge" id="cardProductsConfidence">-</div>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button id="redoBtn" class="redo-btn"><i class="fas fa-redo"></i> Redo</button>
+                                <button id="confirmBtn" class="confirm-btn"><i class="fas fa-check"></i> Confirm</button>
+                            </div>
+                        </div>
+                        <pre id="result">No data yet... Complete Phase 1 and/or Phase 2 to see extracted information here.</pre>
+                        <div class="view-controls">
+                            <button id="editBusinessBtn" class="edit-btn" style="display: none;"><i class="fas fa-edit"></i> Edit Business</button>
+                            <button id="editProductsBtn" class="edit-btn" style="display: none;"><i class="fas fa-edit"></i> Edit Products</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Confirmation Modal -->
+        <div id="successModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-check-circle"></i> Profile Created Successfully!</h2>
+                    <button class="close-btn" onclick="closeSuccessModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="success-message">
+                        <p><strong> Business profile has been created successfully!</strong></p>
+                    </div>
+                    
+                    <div class="profile-summary">
+                        <h3><i class="fas fa-user"></i> Profile Details</h3>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <label>Person Name:</label>
+                                <span id="summaryPersonName">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <label>Business Name:</label>
+                                <span id="summaryName">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <label>Address:</label>
+                                <span id="summaryAddress">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <label>City:</label>
+                                <span id="summaryCity">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <label>Category:</label>
+                                <span id="summaryCategory">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <label>Phone:</label>
+                                <span id="summaryPhone">-</span>
+                            </div>
+                            <div class="summary-item full-width">
+                                <label>Products:</label>
+                                <span id="summaryProducts">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button id="createMoreBtn" class="create-more-btn" onclick="createMoreProfiles()">
+                            <i class="fas fa-plus-circle"></i> Create More Profiles
+                        </button>
+                        <button id="finishBtn" class="finish-btn" onclick="finishProcess()">
+                            <i class="fas fa-check-double"></i> Finish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profiles List Modal -->
+        <div id="profilesModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-users"></i> All Business Profiles</h2>
+                    <button class="close-btn" onclick="closeProfilesModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="profiles-header">
+                        <div class="profiles-stats">
+                            <span class="total-profiles">Total Profiles: <strong id="totalProfilesCount">0</strong></span>
+                            <button id="refreshProfilesBtn" class="refresh-btn" onclick="loadProfiles()">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="profilesList" class="profiles-list">
+                        <div class="no-profiles">
+                            <i class="fas fa-users-slash"></i>
+                            <p>No profiles created yet. Start by recording business information!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/static/script.js"></script>
+    </body>
+</html>
